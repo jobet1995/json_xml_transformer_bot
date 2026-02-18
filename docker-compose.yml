@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  transformer:
+    container_name: json_xml_transformer
+    tty: true
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DISPLAY=${DISPLAY}       # For GUI forwarding (Linux)
+    volumes:
+      - ./src:/app/src          # Source code
+      - ./input:/app/input      # Input JSON/XML files
+      - ./output:/app/output    # Exported CSV/Excel files
+      - ./logs:/app/logs        # Logs
+      - ./config:/app/config    # Config files
+      - /tmp/.X11-unix:/tmp/.X11-unix  # GUI socket (Linux)
+    command: python src/main.py
+    build:
+      context: .
+      dockerfile: Dockerfile
